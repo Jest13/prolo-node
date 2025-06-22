@@ -1,23 +1,23 @@
 # Trezor hardware wallet support
 
-This module adds [Trezor] hardware support to Monero.
+This module adds [Trezor] hardware support to Prolo.
 
 
 ## Basic information
 
-Trezor integration is based on the following original proposal: https://github.com/ph4r05/monero-trezor-doc
+Trezor integration is based on the following original proposal: https://github.com/ph4r05/prolo-trezor-doc
 
 A custom high-level transaction signing protocol uses Trezor in a similar way a cold wallet is used. 
 Transaction is build incrementally on the device. 
 
-Trezor implements the signing protocol in [trezor-firmware] repository, in the [monero](https://github.com/trezor/trezor-firmware/tree/master/core/src/apps/monero) application.
-Please, refer to [monero readme](https://github.com/trezor/trezor-firmware/blob/master/core/src/apps/monero/README.md) for more information.
+Trezor implements the signing protocol in [trezor-firmware] repository, in the [prolo](https://github.com/trezor/trezor-firmware/tree/master/core/src/apps/prolo) application.
+Please, refer to [prolo readme](https://github.com/trezor/trezor-firmware/blob/master/core/src/apps/prolo/README.md) for more information.
 
 ## Dependencies
 
 Trezor uses [Protobuf](https://protobuf.dev/) library.
 
-Monero is now compiled with C++17 by default. If you are getting Trezor compilation errors, it may be caused by abseil (protobuf dependency) not being compiled with C++17.
+Prolo is now compiled with C++17 by default. If you are getting Trezor compilation errors, it may be caused by abseil (protobuf dependency) not being compiled with C++17.
 To fix this try installing protobuf from sources:
 
 ```shell
@@ -55,9 +55,9 @@ USE_DEVICE_TREZOR=OFF make release
 
 ## Resources:
 
-- First pull request https://github.com/monero-project/monero/pull/4241
-- Integration proposal https://github.com/ph4r05/monero-trezor-doc
-- Integration readme in trezor-firmware https://github.com/trezor/trezor-firmware/blob/master/core/src/apps/monero/README.md
+- First pull request https://github.com/prolo-project/prolo/pull/4241
+- Integration proposal https://github.com/ph4r05/prolo-trezor-doc
+- Integration readme in trezor-firmware https://github.com/trezor/trezor-firmware/blob/master/core/src/apps/prolo/README.md
 
 [Trezor]: https://trezor.io/
 [trezor-firmware]: https://github.com/trezor/trezor-firmware/

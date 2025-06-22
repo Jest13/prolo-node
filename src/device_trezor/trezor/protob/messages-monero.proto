@@ -1,11 +1,11 @@
 syntax = "proto2";
-package hw.trezor.messages.monero;
+package hw.trezor.messages.prolo;
 
 // Sugar for easier handling in Java
 option java_package = "com.satoshilabs.trezor.lib.protobuf";
-option java_outer_classname = "TrezorMessageMonero";
+option java_outer_classname = "TrezorMessageProlo";
 
-enum MoneroNetworkType {
+enum ProloNetworkType {
     MAINNET = 0;
     TESTNET = 1;
     STAGENET = 2;
@@ -13,11 +13,11 @@ enum MoneroNetworkType {
 }
 
 /**
- * Structure representing Monero transaction source entry, UTXO
+ * Structure representing Prolo transaction source entry, UTXO
  * @embed
  */
-message MoneroTransactionSourceEntry {
-    repeated MoneroOutputEntry outputs = 1;  // all outputs including decoys (forms the ring)
+message ProloTransactionSourceEntry {
+    repeated ProloOutputEntry outputs = 1;  // all outputs including decoys (forms the ring)
     optional uint64 real_output = 2;  // index denoting which item in `outputs` is our real output (not a decoy)
     optional bytes real_out_tx_key = 3;  // tx key located in the real output's tx
     repeated bytes real_out_additional_tx_keys = 4;  // additional tx keys if applicable
@@ -25,17 +25,17 @@ message MoneroTransactionSourceEntry {
     optional uint64 amount = 6;
     optional bool rct = 7;  // is RingCT used (true for newer UTXOs)
     optional bytes mask = 8;
-    optional MoneroMultisigKLRki multisig_kLRki = 9;
+    optional ProloMultisigKLRki multisig_kLRki = 9;
     optional uint32 subaddr_minor = 10;  // minor subaddr index UTXO was sent to
-    message MoneroOutputEntry {
+    message ProloOutputEntry {
         optional uint64 idx = 1;
-        optional MoneroRctKeyPublic key = 2;
-        message MoneroRctKeyPublic {
+        optional ProloRctKeyPublic key = 2;
+        message ProloRctKeyPublic {
             required bytes dest = 1;
             required bytes commitment = 2;
         }
     }
-    message MoneroMultisigKLRki {
+    message ProloMultisigKLRki {
         optional bytes K = 1;
         optional bytes L = 2;
         optional bytes R = 3;
@@ -44,19 +44,19 @@ message MoneroTransactionSourceEntry {
 }
 
 /**
- * Structure representing Monero transaction destination entry
+ * Structure representing Prolo transaction destination entry
  * @embed
  */
-message MoneroTransactionDestinationEntry {
+message ProloTransactionDestinationEntry {
     optional uint64 amount = 1;
-    optional MoneroAccountPublicAddress addr = 2;
+    optional ProloAccountPublicAddress addr = 2;
     optional bool is_subaddress = 3;
     optional bytes original = 4;
     optional bool is_integrated = 5;
     /**
-     * Structure representing Monero public address
+     * Structure representing Prolo public address
      */
-    message MoneroAccountPublicAddress {
+    message ProloAccountPublicAddress {
         optional bytes spend_public_key = 1;
         optional bytes view_public_key = 2;
     }
@@ -66,7 +66,7 @@ message MoneroTransactionDestinationEntry {
  * Range sig parameters / data.
  * @embed
  */
-message MoneroTransactionRsigData {
+message ProloTransactionRsigData {
     optional uint32 rsig_type = 1;  // range signature (aka proof) type
     optional uint32 offload_type = 2;
     repeated uint64 grouping = 3;  // aggregation scheme for BP
@@ -80,102 +80,102 @@ message MoneroTransactionRsigData {
 /**
  * Request: Ask device for public address derived from seed and address_n
  * @start
- * @next MoneroAddress
+ * @next ProloAddress
  * @next Failure
  */
-message MoneroGetAddress {
+message ProloGetAddress {
     repeated uint32 address_n = 1;          // BIP-32 path to derive the key from master node
     optional bool show_display = 2;         // Optionally show on display before sending the result
-    optional MoneroNetworkType network_type = 3 [default=MAINNET]; // Network type
+    optional ProloNetworkType network_type = 3 [default=MAINNET]; // Network type
     optional uint32 account = 4;            // Major subaddr index
     optional uint32 minor = 5;              // Minor subaddr index
     optional bytes payment_id = 6;          // Payment ID for integrated address
 }
 
 /**
- * Response: Contains Monero watch-only credentials derived from device private seed
+ * Response: Contains Prolo watch-only credentials derived from device private seed
  * @end
  */
-message MoneroAddress {
+message ProloAddress {
     optional bytes address = 1;
 }
 
 /**
  * Request: Ask device for watch only credentials
  * @start
- * @next MoneroWatchKey
+ * @next ProloWatchKey
  * @next Failure
  */
-message MoneroGetWatchKey {
+message ProloGetWatchKey {
     repeated uint32 address_n = 1;          // BIP-32 path to derive the key from master node
-    optional MoneroNetworkType network_type = 2 [default=MAINNET]; // Network type
+    optional ProloNetworkType network_type = 2 [default=MAINNET]; // Network type
 }
 
 /**
- * Response: Contains Monero watch-only credentials derived from device private seed
+ * Response: Contains Prolo watch-only credentials derived from device private seed
  * @end
  */
-message MoneroWatchKey {
+message ProloWatchKey {
     optional bytes watch_key = 1;
     optional bytes address = 2;
 }
 
 /**
- * Request: Sub request of MoneroTransactionSign. Initializes transaction signing.
+ * Request: Sub request of ProloTransactionSign. Initializes transaction signing.
  * @start
- * @next MoneroTransactionInitAck
+ * @next ProloTransactionInitAck
  */
-message MoneroTransactionInitRequest {
+message ProloTransactionInitRequest {
     optional uint32 version = 1;
     repeated uint32 address_n = 2;
-    optional MoneroNetworkType network_type = 3 [default=MAINNET]; // Network type
-    optional MoneroTransactionData tsx_data = 4;
+    optional ProloNetworkType network_type = 3 [default=MAINNET]; // Network type
+    optional ProloTransactionData tsx_data = 4;
     /**
-     * Structure representing Monero initial transaction information
+     * Structure representing Prolo initial transaction information
      */
-    message MoneroTransactionData {
+    message ProloTransactionData {
         optional uint32 version = 1;
         optional bytes payment_id = 2;
         optional uint64 unlock_time = 3;
-        repeated MoneroTransactionDestinationEntry outputs = 4;
-        optional MoneroTransactionDestinationEntry change_dts = 5;
+        repeated ProloTransactionDestinationEntry outputs = 4;
+        optional ProloTransactionDestinationEntry change_dts = 5;
         optional uint32 num_inputs = 6;
         optional uint32 mixin = 7;
         optional uint64 fee = 8;
         optional uint32 account = 9;
         repeated uint32 minor_indices = 10;
-        optional MoneroTransactionRsigData rsig_data = 11;
+        optional ProloTransactionRsigData rsig_data = 11;
         repeated uint32 integrated_indices = 12;
         optional uint32 client_version = 13;  // connected client version
         optional uint32 hard_fork = 14;       // transaction hard fork number
-        optional bytes monero_version = 15;   // monero software version
+        optional bytes prolo_version = 15;   // prolo software version
     }
 }
 
 /**
  * Response: Response to transaction signing initialization.
- * @next MoneroTransactionSetInputRequest
+ * @next ProloTransactionSetInputRequest
  */
-message MoneroTransactionInitAck {
+message ProloTransactionInitAck {
     repeated bytes hmacs = 1;
-    optional MoneroTransactionRsigData rsig_data = 2;
+    optional ProloTransactionRsigData rsig_data = 2;
 }
 
 /**
- * Request: Sub request of MoneroTransactionSign. Sends one UTXO to device
- * @next MoneroTransactionSetInputAck
+ * Request: Sub request of ProloTransactionSign. Sends one UTXO to device
+ * @next ProloTransactionSetInputAck
  */
-message MoneroTransactionSetInputRequest {
-    optional MoneroTransactionSourceEntry src_entr = 1;
+message ProloTransactionSetInputRequest {
+    optional ProloTransactionSourceEntry src_entr = 1;
 }
 
 /**
  * Response: Response to setting UTXO for signature. Contains sealed values needed for further protocol steps.
- * @next MoneroTransactionSetInputAck
- * @next MoneroTransactionInputViniRequest
+ * @next ProloTransactionSetInputAck
+ * @next ProloTransactionInputViniRequest
  */
-message MoneroTransactionSetInputAck {
-    optional bytes vini = 1;      // xmrtypes.TxinToKey
+message ProloTransactionSetInputAck {
+    optional bytes vini = 1;      // protypes.TxinToKey
     optional bytes vini_hmac = 2;
     optional bytes pseudo_out = 3;
     optional bytes pseudo_out_hmac = 4;
@@ -184,12 +184,12 @@ message MoneroTransactionSetInputAck {
 }
 
 /**
- * Request: Sub request of MoneroTransactionSign. Sends one UTXO to device together with sealed values.
- * @next MoneroTransactionInputViniAck
+ * Request: Sub request of ProloTransactionSign. Sends one UTXO to device together with sealed values.
+ * @next ProloTransactionInputViniAck
  */
-message MoneroTransactionInputViniRequest {
-    optional MoneroTransactionSourceEntry src_entr = 1;
-    optional bytes vini = 2;      // xmrtypes.TxinToKey
+message ProloTransactionInputViniRequest {
+    optional ProloTransactionSourceEntry src_entr = 1;
+    optional bytes vini = 2;      // protypes.TxinToKey
     optional bytes vini_hmac = 3;
     optional bytes pseudo_out = 4;
     optional bytes pseudo_out_hmac = 5;
@@ -198,73 +198,73 @@ message MoneroTransactionInputViniRequest {
 
 /**
  * Response: Response to setting UTXO to the device
- * @next MoneroTransactionInputViniRequest
- * @next MoneroTransactionAllInputsSetRequest
+ * @next ProloTransactionInputViniRequest
+ * @next ProloTransactionAllInputsSetRequest
  */
-message MoneroTransactionInputViniAck {
+message ProloTransactionInputViniAck {
 }
 
 /**
- * Request: Sub request of MoneroTransactionSign. Sent after all inputs have been sent. Useful for rangeisg offloading.
- * @next MoneroTransactionAllInputsSetAck
+ * Request: Sub request of ProloTransactionSign. Sent after all inputs have been sent. Useful for rangeisg offloading.
+ * @next ProloTransactionAllInputsSetAck
  */
-message MoneroTransactionAllInputsSetRequest {
+message ProloTransactionAllInputsSetRequest {
 }
 
 /**
  * Response: Response to after all inputs have been set.
- * @next MoneroTransactionSetOutputRequest
+ * @next ProloTransactionSetOutputRequest
  */
-message MoneroTransactionAllInputsSetAck {
-    optional MoneroTransactionRsigData rsig_data = 1;
+message ProloTransactionAllInputsSetAck {
+    optional ProloTransactionRsigData rsig_data = 1;
 }
 
 /**
- * Request: Sub request of MoneroTransactionSign. Sends one transaction destination to device (HMACed)
- * @next MoneroTransactionSetOutputAck
+ * Request: Sub request of ProloTransactionSign. Sends one transaction destination to device (HMACed)
+ * @next ProloTransactionSetOutputAck
  */
-message MoneroTransactionSetOutputRequest {
-    optional MoneroTransactionDestinationEntry dst_entr = 1;
+message ProloTransactionSetOutputRequest {
+    optional ProloTransactionDestinationEntry dst_entr = 1;
     optional bytes dst_entr_hmac = 2;
-    optional MoneroTransactionRsigData rsig_data = 3;
+    optional ProloTransactionRsigData rsig_data = 3;
     optional bool is_offloaded_bp = 4;  // Extra message, with offloaded BP.
 }
 
 /**
  * Response: Response to setting transaction destination. Contains sealed values needed for further protocol steps.
- * @next MoneroTransactionSetOutputRequest
- * @next MoneroTransactionAllOutSetRequest
+ * @next ProloTransactionSetOutputRequest
+ * @next ProloTransactionAllOutSetRequest
  */
-message MoneroTransactionSetOutputAck {
-    optional bytes tx_out = 1;  // xmrtypes.TxOut
+message ProloTransactionSetOutputAck {
+    optional bytes tx_out = 1;  // protypes.TxOut
     optional bytes vouti_hmac = 2;
-    optional MoneroTransactionRsigData rsig_data = 3;
+    optional ProloTransactionRsigData rsig_data = 3;
     optional bytes out_pk = 4;
     optional bytes ecdh_info = 5;
 }
 
 /**
- * Request: Sub request of MoneroTransactionSign. Sent after all outputs are sent.
- * @next MoneroTransactionAllOutSetAck
+ * Request: Sub request of ProloTransactionSign. Sent after all outputs are sent.
+ * @next ProloTransactionAllOutSetAck
  */
-message MoneroTransactionAllOutSetRequest {
-    optional MoneroTransactionRsigData rsig_data = 1;
+message ProloTransactionAllOutSetRequest {
+    optional ProloTransactionRsigData rsig_data = 1;
 }
 
 /**
  * Response: After all outputs are sent the initial RCT signature fields are sent.
- * @next MoneroTransactionSignInputRequest
+ * @next ProloTransactionSignInputRequest
  */
-message MoneroTransactionAllOutSetAck {
+message ProloTransactionAllOutSetAck {
     optional bytes extra = 1;
     optional bytes tx_prefix_hash = 2;
-    optional MoneroRingCtSig rv = 4;  // xmrtypes.RctSig
+    optional ProloRingCtSig rv = 4;  // protypes.RctSig
     optional bytes full_message_hash = 5;
 
     /*
-     * Structure represents initial fields of the Monero RCT signature
+     * Structure represents initial fields of the Prolo RCT signature
      */
-    message MoneroRingCtSig {
+    message ProloRingCtSig {
         optional uint64 txn_fee = 1;
         optional bytes message = 2;
         optional uint32 rv_type = 3;
@@ -272,12 +272,12 @@ message MoneroTransactionAllOutSetAck {
 }
 
 /**
- * Request: Sub request of MoneroTransactionSign. Sends UTXO for the signing.
- * @next MoneroTransactionSignInputAck
+ * Request: Sub request of ProloTransactionSign. Sends UTXO for the signing.
+ * @next ProloTransactionSignInputAck
  */
-message MoneroTransactionSignInputRequest {
-    optional MoneroTransactionSourceEntry src_entr = 1;
-    optional bytes vini = 2;     // xmrtypes.TxinToKey
+message ProloTransactionSignInputRequest {
+    optional ProloTransactionSourceEntry src_entr = 1;
+    optional bytes vini = 2;     // protypes.TxinToKey
     optional bytes vini_hmac = 3;
     optional bytes pseudo_out = 4;
     optional bytes pseudo_out_hmac = 5;
@@ -288,26 +288,26 @@ message MoneroTransactionSignInputRequest {
 
 /**
  * Response: Contains full MG signature of the UTXO + multisig data if applicable.
- * @next MoneroTransactionSignInputRequest
- * @next MoneroTransactionFinalRequest
+ * @next ProloTransactionSignInputRequest
+ * @next ProloTransactionFinalRequest
  */
-message MoneroTransactionSignInputAck {
+message ProloTransactionSignInputAck {
     optional bytes signature = 1;
     optional bytes pseudo_out = 2;  // updated pseudo-out after mask correction
 }
 
 /**
- * Request: Sub request of MoneroTransactionSign. Final message of the procol after all UTXOs are signed
- * @next MoneroTransactionFinalAck
+ * Request: Sub request of ProloTransactionSign. Final message of the procol after all UTXOs are signed
+ * @next ProloTransactionFinalAck
  */
-message MoneroTransactionFinalRequest {
+message ProloTransactionFinalRequest {
 }
 
 /**
  * Response: Contains transaction metadata and encryption keys needed for further transaction operations (e.g. multisig, send proof).
  * @end
  */
-message MoneroTransactionFinalAck {
+message ProloTransactionFinalAck {
     optional bytes cout_key = 1;
     optional bytes salt = 2;
     optional bytes rand_mult = 3;
@@ -316,20 +316,20 @@ message MoneroTransactionFinalAck {
 }
 
 /**
- * Request: Sub request of MoneroKeyImageSync. Initializing key image sync.
+ * Request: Sub request of ProloKeyImageSync. Initializing key image sync.
  * @start
- * @next MoneroKeyImageExportInitAck
+ * @next ProloKeyImageExportInitAck
  */
-message MoneroKeyImageExportInitRequest {
+message ProloKeyImageExportInitRequest {
     required uint64 num = 1;
     required bytes hash = 2;
     repeated uint32 address_n = 3;               // BIP-32 path to derive the key from master node
-    optional MoneroNetworkType network_type = 4 [default=MAINNET]; // network type
-    repeated MoneroSubAddressIndicesList subs = 5;
+    optional ProloNetworkType network_type = 4 [default=MAINNET]; // network type
+    repeated ProloSubAddressIndicesList subs = 5;
     /**
-     * Structure representing Monero list of sub-addresses
+     * Structure representing Prolo list of sub-addresses
      */
-    message MoneroSubAddressIndicesList {
+    message ProloSubAddressIndicesList {
         required uint32 account = 1;
         repeated uint32 minor_indices = 2;
     }
@@ -337,21 +337,21 @@ message MoneroKeyImageExportInitRequest {
 
 /**
  * Response: Response to key image sync initialization.
- * @next MoneroKeyImageSyncStepRequest
+ * @next ProloKeyImageSyncStepRequest
  */
-message MoneroKeyImageExportInitAck {
+message ProloKeyImageExportInitAck {
 }
 
 /**
- * Request: Sub request of MoneroKeyImageSync. Contains batch of the UTXO to export key image for.
- * @next MoneroKeyImageSyncStepAck
+ * Request: Sub request of ProloKeyImageSync. Contains batch of the UTXO to export key image for.
+ * @next ProloKeyImageSyncStepAck
  */
-message MoneroKeyImageSyncStepRequest {
-    repeated MoneroTransferDetails tdis = 1;
+message ProloKeyImageSyncStepRequest {
+    repeated ProloTransferDetails tdis = 1;
     /**
-     * Structure representing Monero UTXO for key image sync
+     * Structure representing Prolo UTXO for key image sync
      */
-    message MoneroTransferDetails {
+    message ProloTransferDetails {
         required bytes out_key = 1;
         required bytes tx_pub_key = 2;
         repeated bytes additional_tx_pub_keys = 3;
@@ -363,42 +363,42 @@ message MoneroKeyImageSyncStepRequest {
 
 /**
  * Response: Response to key image sync step. Contains encrypted exported key image.
- * @next MoneroKeyImageSyncStepRequest
- * @next MoneroKeyImageSyncFinalRequest
+ * @next ProloKeyImageSyncStepRequest
+ * @next ProloKeyImageSyncFinalRequest
  */
-message MoneroKeyImageSyncStepAck {
-    repeated MoneroExportedKeyImage kis = 1;
+message ProloKeyImageSyncStepAck {
+    repeated ProloExportedKeyImage kis = 1;
     /**
-     * Structure representing Monero encrypted exported key image
+     * Structure representing Prolo encrypted exported key image
      */
-    message MoneroExportedKeyImage {
+    message ProloExportedKeyImage {
         optional bytes iv = 1;
         optional bytes blob = 3;
     }
 }
 
 /**
- * Request: Sub request of MoneroKeyImageSync. Final message of the sync protocol.
- * @next MoneroKeyImageSyncFinalAck
+ * Request: Sub request of ProloKeyImageSync. Final message of the sync protocol.
+ * @next ProloKeyImageSyncFinalAck
  */
-message MoneroKeyImageSyncFinalRequest {
+message ProloKeyImageSyncFinalRequest {
 }
 
 /**
  * Response: Response to key image sync step. Contains encryption keys for exported key images.
  * @end
  */
-message MoneroKeyImageSyncFinalAck {
+message ProloKeyImageSyncFinalAck {
     optional bytes enc_key = 1;
 }
 
 /**
  * Request: Decrypt tx private keys blob
- * @next MoneroGetTxKeyAck
+ * @next ProloGetTxKeyAck
  */
-message MoneroGetTxKeyRequest {
+message ProloGetTxKeyRequest {
     repeated uint32 address_n = 1;          // BIP-32 path to derive the key from master node
-    optional MoneroNetworkType network_type = 2 [default=MAINNET]; // network type
+    optional ProloNetworkType network_type = 2 [default=MAINNET]; // network type
 
     required bytes salt1 = 3;
     required bytes salt2 = 4;
@@ -412,7 +412,7 @@ message MoneroGetTxKeyRequest {
  * Response: Response with the re-encrypted private keys and derivations blob under view key
  * @end
  */
-message MoneroGetTxKeyAck {
+message ProloGetTxKeyAck {
     optional bytes salt = 1;
     optional bytes tx_keys = 2;
     optional bytes tx_derivations = 3;
@@ -420,27 +420,27 @@ message MoneroGetTxKeyAck {
 
 /**
  * Request: Starts live refresh flow. Asks user permission, switches state
- * @next MoneroLiveRefreshStartAck
+ * @next ProloLiveRefreshStartAck
  */
-message MoneroLiveRefreshStartRequest {
+message ProloLiveRefreshStartRequest {
     repeated uint32 address_n = 1;          // BIP-32 path to derive the key from master node
-    optional MoneroNetworkType network_type = 2 [default=MAINNET]; // network type
+    optional ProloNetworkType network_type = 2 [default=MAINNET]; // network type
 }
 
 /**
  * Response after user gave permission
- * @next MoneroLiveRefreshStepRequest
- * @next MoneroLiveRefreshFinalRequest
+ * @next ProloLiveRefreshStepRequest
+ * @next ProloLiveRefreshFinalRequest
  */
-message MoneroLiveRefreshStartAck {
+message ProloLiveRefreshStartAck {
 
 }
 
 /**
  * Request: Request to compute a single key image during live sync
- * @next MoneroLiveRefreshStepAck
+ * @next ProloLiveRefreshStepAck
  */
-message MoneroLiveRefreshStepRequest {
+message ProloLiveRefreshStepRequest {
     required bytes out_key = 1;
     required bytes recv_deriv = 2;
     required uint64 real_out_idx = 3;
@@ -450,19 +450,19 @@ message MoneroLiveRefreshStepRequest {
 
 /**
  * Response: Response with the encrypted key image + signature
- * @next MoneroLiveRefreshStepRequest
- * @next MoneroLiveRefreshFinishedRequest
+ * @next ProloLiveRefreshStepRequest
+ * @next ProloLiveRefreshFinishedRequest
  */
-message MoneroLiveRefreshStepAck {
+message ProloLiveRefreshStepAck {
     optional bytes salt = 1;
     optional bytes key_image = 2;
 }
 
 /**
  * Request: Request terminating live refresh mode.
- * @next MoneroLiveRefreshFinishedAck
+ * @next ProloLiveRefreshFinishedAck
  */
-message MoneroLiveRefreshFinalRequest {
+message ProloLiveRefreshFinalRequest {
 
 }
 
@@ -470,16 +470,16 @@ message MoneroLiveRefreshFinalRequest {
  * Response: Response on termination of live refresh mode.
  * @end
  */
-message MoneroLiveRefreshFinalAck {
+message ProloLiveRefreshFinalAck {
 
 }
 
 /**
- * Request: Universal Monero protocol implementation diagnosis request.
+ * Request: Universal Prolo protocol implementation diagnosis request.
  * @start
- * @next DebugMoneroDiagAck
+ * @next DebugProloDiagAck
  */
-message DebugMoneroDiagRequest {
+message DebugProloDiagRequest {
     optional uint64 ins = 1;
     optional uint64 p1 = 2;
     optional uint64 p2 = 3;
@@ -489,10 +489,10 @@ message DebugMoneroDiagRequest {
 }
 
 /**
- * Response: Response to Monero diagnosis protocol.
+ * Response: Response to Prolo diagnosis protocol.
  * @end
  */
-message DebugMoneroDiagAck {
+message DebugProloDiagAck {
     optional uint64 ins = 1;
     optional uint64 p1 = 2;
     optional uint64 p2 = 3;

@@ -45,8 +45,8 @@
   #include "readline_buffer.h"
 #endif
 
-#undef MONERO_DEFAULT_LOG_CATEGORY
-#define MONERO_DEFAULT_LOG_CATEGORY "console_handler"
+#undef PROLO_DEFAULT_LOG_CATEGORY
+#define PROLO_DEFAULT_LOG_CATEGORY "console_handler"
 
 namespace epee
 {

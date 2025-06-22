@@ -1,4 +1,4 @@
-# Copyright (c) 2014-2024, The Monero Project
+# Copyright (c) 2014-2024, The Prolo Project
 #
 # All rights reserved.
 #
@@ -59,10 +59,10 @@ endif()
 set(device_private_headers)
 
 
-monero_private_headers(device
+prolo_private_headers(device
   ${device_private_headers})
 
-monero_add_library(device
+prolo_add_library(device
   ${device_sources}
   ${device_headers}
   ${device_private_headers})

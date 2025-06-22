@@ -1,4 +1,4 @@
-# Copyright (c) 2014-2024, The Monero Project
+# Copyright (c) 2014-2024, The Prolo Project
 #
 # All rights reserved.
 #
@@ -31,11 +31,11 @@ set(simplewallet_sources
 
 set(simplewallet_headers)
 
-monero_find_all_headers(simplewallet_private_headers "${CMAKE_CURRENT_SOURCE_DIR}")
+prolo_find_all_headers(simplewallet_private_headers "${CMAKE_CURRENT_SOURCE_DIR}")
 
-monero_private_headers(simplewallet
+prolo_private_headers(simplewallet
   ${simplewallet_private_headers})
-monero_add_executable(simplewallet
+prolo_add_executable(simplewallet
   ${simplewallet_sources}
   ${simplewallet_headers}
   ${simplewallet_private_headers})
@@ -61,5 +61,5 @@ target_link_libraries(simplewallet
     ${EXTRA_LIBRARIES})
 set_property(TARGET simplewallet
   PROPERTY
-    OUTPUT_NAME "monero-wallet-cli")
+    OUTPUT_NAME "prolo-wallet-cli")
 install(TARGETS simplewallet DESTINATION bin)

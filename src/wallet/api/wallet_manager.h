@@ -1,4 +1,4 @@
-// Copyright (c) 2014-2024, The Monero Project
+// Copyright (c) 2014-2024, The Prolo Project
 //
 // All rights reserved.
 //
@@ -33,7 +33,7 @@
 #include "net/http.h"
 #include <string>
 
-namespace Monero {
+namespace Prolo {
 
 class WalletManagerImpl : public WalletManager
 {

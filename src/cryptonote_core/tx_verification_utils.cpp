@@ -1,4 +1,4 @@
-// Copyright (c) 2023-2024, The Monero Project
+// Copyright (c) 2023-2024, The Prolo Project
 //
 // All rights reserved.
 //
@@ -34,8 +34,8 @@
 #include "hardforks/hardforks.h"
 #include "ringct/rctSigs.h"
 
-#undef MONERO_DEFAULT_LOG_CATEGORY
-#define MONERO_DEFAULT_LOG_CATEGORY "blockchain"
+#undef PROLO_DEFAULT_LOG_CATEGORY
+#define PROLO_DEFAULT_LOG_CATEGORY "blockchain"
 
 #define VER_ASSERT(cond, msgexpr) CHECK_AND_ASSERT_MES(cond, false, msgexpr)
 
@@ -215,7 +215,7 @@ bool ver_rct_non_semantics_simple_cached
     const std::uint8_t rct_type_to_cache
 )
 {
-    // Hello future Monero dev! If you got this assert, read the following carefully:
+    // Hello future Prolo dev! If you got this assert, read the following carefully:
     //
     // For this version of RCT, the way we guaranteed that verification caches do not generate false
     // positives (and thus possibly enabling double spends) is we take a hash of two things. One,

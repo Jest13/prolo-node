@@ -1,4 +1,4 @@
-// Copyright (c) 2018-2024, The Monero Project
+// Copyright (c) 2018-2024, The Prolo Project
 
 // 
 // All rights reserved.
@@ -34,8 +34,8 @@
 #include "spawn.h"
 #include "notify.h"
 
-#undef MONERO_DEFAULT_LOG_CATEGORY
-#define MONERO_DEFAULT_LOG_CATEGORY "notify"
+#undef PROLO_DEFAULT_LOG_CATEGORY
+#define PROLO_DEFAULT_LOG_CATEGORY "notify"
 
 namespace tools
 {

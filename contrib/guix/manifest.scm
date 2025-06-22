@@ -92,14 +92,14 @@ chain for " target " development."))
 (define base-gcc gcc-12)
 (define base-linux-kernel-headers linux-libre-headers-6.1)
 
-(define* (make-monero-cross-toolchain  target
+(define* (make-prolo-cross-toolchain  target
                                        #:key
                                        (base-gcc-for-libc linux-base-gcc)
                                        (base-kernel-headers base-linux-kernel-headers)
                                        (base-libc glibc-2.27)
                                        (base-gcc linux-base-gcc))
   "Convenience wrapper around MAKE-CROSS-TOOLCHAIN with default values
-desirable for building Monero release binaries."
+desirable for building Prolo release binaries."
   (make-cross-toolchain target
                         base-gcc-for-libc
                         base-kernel-headers
@@ -276,7 +276,7 @@ chain for " target " development."))
 
         ;; Scripting
         perl           ; required to build openssl in depends
-        python-minimal ; required to build monero (cmake/CheckTrezor.cmake) and in android_ndk
+        python-minimal ; required to build prolo (cmake/CheckTrezor.cmake) and in android_ndk
 
         ;; Git
         git-minimal ; used to create the release source archive
@@ -290,7 +290,7 @@ chain for " target " development."))
            (list
              gcc-toolchain-12
              (list gcc-toolchain-12 "static")
-             (make-monero-cross-toolchain target)))
+             (make-prolo-cross-toolchain target)))
           ((string-contains target "freebsd")
            (list
              gcc-toolchain-12

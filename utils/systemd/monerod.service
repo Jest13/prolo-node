@@ -1,16 +1,16 @@
 [Unit]
-Description=Monero Full Node
+Description=Prolo Full Node
 After=network-online.target
 
 [Service]
-User=monero
-Group=monero
+User=prolo
+Group=prolo
 WorkingDirectory=~
-StateDirectory=monero
-LogsDirectory=monero
+StateDirectory=prolo
+LogsDirectory=prolo
 
 Type=simple
-ExecStart=/usr/bin/monerod --config-file /etc/monerod.conf --non-interactive
+ExecStart=/usr/bin/prolod --config-file /etc/prolod.conf --non-interactive
 StandardOutput=null
 StandardError=null
 

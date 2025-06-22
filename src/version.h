@@ -1,7 +1,7 @@
 #pragma once
 
-extern const char* const MONERO_VERSION_TAG;
-extern const char* const MONERO_VERSION;
-extern const char* const MONERO_RELEASE_NAME;
-extern const char* const MONERO_VERSION_FULL;
-extern const bool MONERO_VERSION_IS_RELEASE;
+extern const char* const PROLO_VERSION_TAG;
+extern const char* const PROLO_VERSION;
+extern const char* const PROLO_RELEASE_NAME;
+extern const char* const PROLO_VERSION_FULL;
+extern const bool PROLO_VERSION_IS_RELEASE;

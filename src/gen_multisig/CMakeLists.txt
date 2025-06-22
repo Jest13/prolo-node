@@ -1,4 +1,4 @@
-# Copyright (c) 2017-2024, The Monero Project
+# Copyright (c) 2017-2024, The Prolo Project
 #
 # All rights reserved.
 #
@@ -29,7 +29,7 @@
 set(gen_multisig_sources
   gen_multisig.cpp)
 
-monero_add_executable(gen_multisig
+prolo_add_executable(gen_multisig
   ${gen_multisig_sources})
 target_link_libraries(gen_multisig
   PRIVATE
@@ -50,5 +50,5 @@ add_dependencies(gen_multisig
   version)
 set_property(TARGET gen_multisig
   PROPERTY
-    OUTPUT_NAME "monero-gen-trusted-multisig")
+    OUTPUT_NAME "prolo-gen-trusted-multisig")
 install(TARGETS gen_multisig DESTINATION bin)

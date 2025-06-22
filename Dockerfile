@@ -8,16 +8,23 @@ RUN set -ex && \
     DEBIAN_FRONTEND=noninteractive apt-get --no-install-recommends --yes install \
         automake \
         autotools-dev \
+        autoconf \
+        libtool \
+        libtool-bin \
+        pkg-config \
+        libssl-dev \
         bsdmainutils \
         build-essential \
-        ca-certificates \
-        ccache \
         cmake \
         curl \
         git \
-        libtool \
-        pkg-config \
-        gperf
+        gperf \
+        ca-certificates \
+        python3 \
+        file \
+        wget \
+        unzip
+
 
 WORKDIR /src
 COPY . .
@@ -41,26 +48,26 @@ RUN set -ex && \
     rm -rf /var/lib/apt
 COPY --from=builder /src/build/x86_64-linux-gnu/release/bin /usr/local/bin/
 
-# Create monero user
-RUN adduser --system --group --disabled-password monero && \
-	mkdir -p /wallet /home/monero/.bitmonero && \
-	chown -R monero:monero /home/monero/.bitmonero && \
-	chown -R monero:monero /wallet
+# Create prolo user
+RUN adduser --system --group --disabled-password prolo && \
+	mkdir -p /wallet /home/prolo/.bitprolo && \
+	chown -R prolo:prolo /home/prolo/.bitprolo && \
+	chown -R prolo:prolo /wallet
 
 # Contains the blockchain
-VOLUME /home/monero/.bitmonero
+VOLUME /home/prolo/.bitprolo
 
 # Generate your wallet via accessing the container and run:
 # cd /wallet
-# monero-wallet-cli
+# prolo-wallet-cli
 VOLUME /wallet
 
 EXPOSE 18080
 EXPOSE 18081
 
-# switch to user monero
-USER monero
+# switch to user prolo
+USER prolo
 
-ENTRYPOINT ["monerod"]
+ENTRYPOINT ["prolod"]
 CMD ["--p2p-bind-ip=0.0.0.0", "--p2p-bind-port=18080", "--rpc-bind-ip=0.0.0.0", "--rpc-bind-port=18081", "--non-interactive", "--confirm-external-bind"]
 
