@@ -32,11 +32,14 @@
 #
 set(PROLO_WALLET_CRYPTO_LIBRARY "auto" CACHE STRING "Select a wallet crypto library")
 
+
+
+
 #
 # If the user specified "auto", detect best library defaulting to internal.
 #
 if (${PROLO_WALLET_CRYPTO_LIBRARY} STREQUAL "auto")
-   prolo_crypto_autodetect(AVAILABLE BEST)
+   # prolo_crypto_autodetect(AVAILABLE BEST)
   if (DEFINED BEST)
     message("Wallet crypto is using ${BEST} backend")
     set(PROLO_WALLET_CRYPTO_LIBRARY ${BEST})
