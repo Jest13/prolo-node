@@ -85,8 +85,8 @@ RUN adduser --system --group --disabled-password prolo && \
 VOLUME /home/prolo/.bitprolo
 VOLUME /wallet
 
-EXPOSE 45000
-EXPOSE 45001
+EXPOSE 18080
+EXPOSE 18081
 
 USER prolo
 
